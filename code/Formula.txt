@@ -1,0 +1,164 @@
+LINK TO OVERLEAF: https://www.overleaf.com/project/5fcbaef26e7f609ac97bd6db
+
+CRT
+Let m, n, a, b be any interger. Let g = gcd(m, n).
+    x % m = a
+    x % n = b
+if (a % g == b % g) : it has unique solution modulo lcm(n, m)
+else : no solution
+
+g = u * m + v * n
+x = (a * v * n + b * u * m) / g
+
+==================================================================
+
+Eigen Decomposition
+A = QDQ^{-1}
+Q = nxn matrix, ith column is eigenvector qi
+D = diagonal matrix, D_i_i is eigenvalue lambda_i
+
+==================================================================
+
+Generating function
+1 / ( (1-ax) ^ (k+1) ) = sum_(0->INF)_{ a^n * C(n+k, k) * x^n }
+
+==================================================================
+
+Partition
+Generating function : PI: (1 / (1 - x ^ k))
+p(n)=p(n-1)+p(n-2)-p(n-5)-p(n-7)+p(n-12)+p(n-15)-p(n-22)- ...
+p_k = k * (3k - 1) / 2 with k = 1, -1, 2, -2, 3, -3, ...
+ 
+==================================================================
+
+Center of mass + green theorem
+Cx = 1/6A * sum_(0->n-1)_{ (x_i + x_i+1) * (x_i * y_i+1 - x_i+1 * y_i) }
+Cy = 1/6A * sum_(0->n-1)_{ (y_i + y_i+1) * (x_i * y_i+1 - x_i+1 * y_i) }
+A = 1/2 * sum_(0->n-1)_{(x_i * y_i+1 - x_i+1 * y_i)}
+Green: C_intergral(Pdx + Qdy) = 2D_intergral(dQ/dx - dP/dy)dxdy
+
+==================================================================
+
+Fibonacci mod 10^9+9
+Fn = 276601605(691504013^n - 308495997^n) [10^9 + 9]
+
+==================================================================
+
+SQRT for loop
+for (int i = 1, la; i <= n; i = la + 1) {
+    la = n / (n / i);
+    //n / x yields the same value for i <= x <= la.
+}
+
+==================================================================
+
+Mobius inversion
+if g(n) = sum_(d|n)_f(d) with n >= 1
+then f(n) = sum_(d|n)_mu(d)*g(n/d) with n >= 1
+
+==================================================================
+
+Dirichlet convolution
+mu: Mobius function
+eps(i) = (i == 1)
+Id(i) = i
+phi: Euler's totient function 
+
+g = f * 1 <=> f = g * mu
+1 * mu = eps
+1 * phi = Id
+
+==================================================================
+
+Dual graph
+Euler formula: V - E + F = 2
+in dual graph: V <=> F
+in complement dual graph: (removed egdes in the original => edges in dual):
+    a connected component is equivalent to a face in dual
+
+==================================================================
+
+Pell equation
+x^2 - ny^2 = 1
+x1, y1 is the minimal solution
+x_k+1 = x_1*x_k + n*y_1*y_k
+y_k+1 = x_1*y_k + y_1*x_k
+
+==================================================================
+
+Burnside lemma
+G: finite group acts on set X
+X_g: set of elements fixed by g
+Number of orbits: |X/G| = 1/|G| * sum_(g in G)_|X_g|
+
+==================================================================
+
+Euler function
+Gamma(z) = intergral_{0->INF}_{ x^{z-1} e^{x} dx }
+Beta(z) = intergral_{0->1}_{ t^{x-1} (1-t)^{y-1} dt }
+G(n) = (n-1)!
+G(z + 1) = zG(z)
+G(1/2) = sqrt(PI)
+B(x, y) = G(x)G(y)/G(x+y)
+
+==================================================================
+
+Given 3 mutually tangent circles. Find inner circle (touching all 3) and outer circle (touching all 3).
+The radius is given by:
+k4 = |k1 + k2 + k3 +- 2*sqrt(k1*k2 + k2*k3 + k3*k1)|
+where ki = 1/ri
+Minus --> Outer
+Plus --> Inner
+
+Special cases:
+- If 1 circle --> line, change ki to 0 --> k4 = k1 + k2 +- 2*sqrt(k1*k2)
+
+==================================================================
+
+Hacken Bush
+Green Hacken Bush: subtree of u: g(u) = SUMXOR{g(v)} + 1 with v is a child of u
+RB Hacken Bush:
+a. subtree of u: g(u) = SUM_{f(g(v))} with v is a child of u
+if color of {u, v} is blue: f(x) = (x+i) / 2^(i-1) with smallest i >= 1 such that x + i > 1
+if color of {u, v} is red:  f(x) = (x-i) / 2^(i-1) with smallest i >= 1 such that x - i < -1
+b. Loop: find 2 nearest 2 points where segment change color, cut the rest in half
+the value of loop is sum of the 2 segments. If there are an odd number, cut the middle segment
+in half and treat it as two segments 
+c. Stalk: Count the number of blue (or red) edges that are connected in one continuous path.
+If there are n of them, start with the number n. For each new edge going up, assign that value 
+of that edge to be half of the one below it.  If it is a blue edge make it positive.
+If it is a red edge make it negative.
+
+
+==================================================================
+
+Prufer sequence
+a. Get prufer code of a tree
+    - Find a leaf of lowest label x, connect to y. Remove x, add y to the sequence
+    - Repeat until we are left with 2 nodes
+b. Construct a tree
+    - Let the first element is X, find a node which doesn't appear in the sequence L
+    - Add edge X, L
+    - Remove X
+
+#trees on n labeled vertices is n^{n-2}
+#labelled rooted forests on n vertices is (n+1)^{n-1}
+#labelled forests on n vertices with k connected components is k * n^{n-k-1}.
+
+==================================================================
+
+Erdos-Gallai theorem
+A sequence of non-negative integers d1 >= ... >= dn can be represented as the degree sequence of a 
+finite simple graph on n vertices if and only if d1 + ... + dn is even and
+    SUM_{i:1->k}_di <= k(k-1) + SUM_{i:k+1->n}_MIN(di, k) 
+holds for every k in 1 <= k <= n.
+
+Fulkerson-Chen-Anstee theorem
+A sequence ((a1,b1), ..., (an, bn)) of nonnegative integer pairs with a1 >= ... >= an is digraphic
+if and only if SUM_a[i] = SUM_b[i] and with 1 <= k <= n:
+    SUM_{i:1->k}_ai <= SUM_{i:1->k}_MIN(bi, k-1) + SUM_{i:k+1->n}_MIN(bi, k)
+
+Gale-Ryser theorem
+A pair of sequences of nonnegative integers (a1,..,an) and (b1,..,bn) with a1 >= ... >= an is 
+bigraphic if and only if SUM_ai = SUM_bi and with 1 <= k <= n:
+    SUM_{i:1->k}_ai <= SUM_{i:1->n}_MIN(bi, k)
